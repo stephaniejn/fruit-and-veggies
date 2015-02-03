@@ -15,6 +15,7 @@ function randOrd(){
 }
 
 fruitveggieApp.controller('FVlist', ['$scope', function($scope){
+    $scope.gameover= false
     var fruitveg = fruit.concat(vegetables).sort(randOrd)
     $scope.items = fruitveg;
     $scope.fruits = [];
@@ -41,9 +42,11 @@ fruitveggieApp.controller('FVlist', ['$scope', function($scope){
     }
 
     $scope.checkFruit = function(item){
+        if ($scope.gameover) return
+
         var array1 = fruit.sort()
         var array2 = $scope.fruits.sort()
-        var test = "est"
+
 
         if (fruit.indexOf(item) != -1 && fruitveg.length == 1){
             return true
@@ -53,22 +56,44 @@ fruitveggieApp.controller('FVlist', ['$scope', function($scope){
             return element === array2[index];
         });
         if(is_same== true && fruitveg.length < 1){
+            $scope.gameover = true
             alert("You won!")
+            return
+
+        }
+        else if (fruitveg.length < 1){
+            $scope.gameover = true
+            alert("You lost!")
+            return
+
         }
     }
 
     $scope.checkVeg = function(item){
-        // console.log(item)
+        if ($scope.gameover) return
+        var array1 = vegetables.sort()
+        var array2 = $scope.veggies.sort()
+
+
         console.log(fruitveg.length)
-        // console.log(fruit.indexOf(item))
+
         if (vegetables.indexOf(item) != -1 && fruitveg.length == 0){
             return true
         }
         var is_same = array1.length == array2.length && array1.every(function(element, index) {
             return element === array2[index];
         });
-        if(is_same== true && fruitveg.length < 1){
+         if(is_same== true && fruitveg.length < 1){
+            $scope.gameover = true
             alert("You won!")
+            return
+
+        }
+        else if (fruitveg.length < 1){
+            $scope.gameover = true
+            alert("You lost!")
+            return
+
         }
     }
 
